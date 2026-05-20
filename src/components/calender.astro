@@ -1,0 +1,19 @@
+---
+import MyCalendar from "./calender.tsx";
+---
+
+<div class="calendar-container">
+  <MyCalendar client:only="react" />
+</div>
+
+<style>
+  .calendar-container {
+    width: 100%;
+    overflow-x: auto;
+    padding: 20px;
+    border-radius: 20px;
+    border-color: rgba(0, 0, 0, 0.116);
+    border-width: 2px;
+    border-style: solid;
+  }
+</style>
