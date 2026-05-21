@@ -85,7 +85,7 @@ $g_k \le 0$ Inequality constraints (e.g. bounds, obstacles, frictions, cones ).
 
 > “An optimal policy has the property that no matter what the previous decisions (i.e., controls) have been, the remaining decisions must constitute an optimal policy with regard to the state resulting from those previous decisions." -- Bellman, 1957
 
-!["Optimal path"](image\path.png)
+!["Optimal path"](./image/path.png)
 
 Applying this principle reduces the number of candidates for the optimal solution: once we know the
 optimal sub-path from b to e, any a→e trajectory through b must reuse it.

@@ -482,16 +482,16 @@ end
 
 ### Simulation Results
 End-effector position:
-!["Position of end-effector"](image\end-effector.svg)
+!["Position of end-effector"](./image/end-effector.svg)
 Start position:
-!["3 link movement."](image\t0.svg)
+!["3 link movement."](./image/t0.svg)
 Stable trajectory:
 
-!["Position of end-effector"](image\t5.svg) !["Position of end-effector"](image\t10.svg)
+!["Position of end-effector"](./image/t5.svg) !["Position of end-effector"](./image/t10.svg)
 GIF:
-!["Position of end-effector"](image\t.gif)
+!["Position of end-effector"](./image/t.gif)
 
-!["Simulink"](image\simulink.png)
+!["Simulink"](./image/simulink.png)
 
 ## 3. Realize in jointspace
 Define the task space trajectory, end-effector is in Cartesian plane over time:

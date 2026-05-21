@@ -128,7 +128,7 @@ The exploration rate $\epsilon_t$ linearly decays from an initial value to a min
 $$
 \epsilon_t = \max \left( \epsilon_{\text{end}}, \, \epsilon_{\text{start}} - \frac{\epsilon_{\text{start}} - \epsilon_{\text{end}}}{T_{\text{decay}}} \cdot t \right)
 $$
-!["Exploration"](image/exploration.png)
+!["Exploration"](./image/exploration.png)
 
 ---
 1. 动作选择 (Action Selection: $\epsilon$-Greedy)
@@ -172,7 +172,7 @@ $$
 
 ## 5-Tuple:
 It carries everything needed to evaluate the TD target later:
-!["Anatomy of a Replay Tuple"](image/replay_buffer.png)
+!["Anatomy of a Replay Tuple"](./image/replay_buffer.png)
 **TD Target with Termination**
 $$
 y_t = r_t + (1 - d_t) \gamma \max_{a'} Q_{\phi}(s_{t+1}, a')
