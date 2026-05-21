@@ -228,3 +228,38 @@ $$V_x = Q_x + K^\top Q_u + K^\top Q_{uu} k + Q_{xu} k$$
 $$V_{xx} = Q_{xx} + Q_{xu} K + K^\top Q_{ux} + K^\top Q_{uu} K$$
 
 * These $V_x, V_{xx}$ are passed to step $k - 1$
+
+**Algorighm Overview**
+
+!["iLQR"](./image/iLQR.png)
+
+1. **Forward Pass / Rollout**
+  * Apply control policy: use $\pi(x) = \bar{u} + K(x - \bar{x}) + k$ to compute control input.
+    * $\bar{u}$ is the reference control value from the previous iteration.
+    * $K(x - \bar{x})$ is the state feedback, to fix the difference between actual state $x$ and desired state $\bar{x}$.
+    * $k$ is the Feedforward term, used to adjust the control reference as a whole.
+  * Simulate dynamics: according to $x_{k+1} = f(x_k, u_k)$, calculate the Roolout on time.
+  * Calculate cost: $J_{new}$, is the cost of new trajectory.
+2. **Backward Pass (Ricatti)**
+  > In this step, the algorithm works backwards from the end of the trajectory to the start, using the Bellman equation and the Riccati equation to optimise the policy:
+  * Compute Jacobians: at every timestep of ths trajectory, calculate $f_x$ and $f_u$. (Locally linearization)
+  * Expand Q: by using the next timestep motion cost $V_{k+1}$, perform a quadratic Taylor expansion of the current Q-function
+  * Update Gains: compute the feed fowrard $K$ and feedback $k$ gains.
+3. **Convergence test**
+  * Difference between new/old trajectory is small enough? ($J_{old} - J_{new}$)
+  * Or the feedback gain is close to 0.
+  * None convergence? then update the policy then proceed forward pass.
+
+
+<div style="background:#17b389ba;border-radius: 20px;padding: 10px; backdrop-filter: blur(10px);">
+<strong>Properities & Limitations</strong>
+<P>
+* Local Optima: As a Newton-method variant, it converges to a local minimum. Good initialization is a key.
+</P>
+<P>
+* Model Requirement: The backward  step strictly requires partial derivatives of the model (f_x, f_u)
+</P>
+<P>
+* Speed: Very fast for smooth dynamics.
+</P>
+</div>
