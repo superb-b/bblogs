@@ -253,3 +253,55 @@ $\text{Target} \quad y_t = r +\gamma\max_{a'} Q_{\theta}(s',a')$
 
 **Solution: Twin Network**
 $Q_{\theta}$, a clone of the main network that is frozen in time.
+$$
+y_t = r + \gamma \max_{a'} Q_\phi(s', a')
+$$
+
+* **Main Net$(Q_\theta)$**: Updates every step.
+* **Target Net$(Q_\phi)$**: Frozen, Constant.
+* **Sync**: Every C steps, copy weights.
+
+```mermaid
+graph LR
+    Main --->|Copy slow| Target
+    Target --->|target y_t | Main
+```
+
+## Practical Design Knobs
+### 1. Exploration Strategy
+How do we encourage trying new things?
+* **$\epsilon$-greedy (Discrete):** Flip a coin. With prob $\epsilon$, take random action. Simple.
+* **Entropy Reg. (Continuous):** Add penalty $+\alpha \mathcal{H}(\pi)$ to loss. Keeps policy uncertain to prevent premature convergence.
+
+### 2. On-Policy vs. Off-Policy
+* **On-Policy (e.g., PPO):** Use data generated *only* by current $\pi_k$. Stable, but sample inefficient (throws data away).
+* **Off-Policy (e.g., DDPG, DQN):** Use data from *any* past policy (Replay Buffer). Efficient, but mathematically risky (bias).
+
+### 3. Stability Hacks (Essential)
+Neural Networks hate correlated data. Fixes:
+* **Replay Buffers:** Store $(s, a, r, s')$. Sample random batches to break temporal correlations (i.i.d.).
+* **Target Networks:** Compute loss targets with a frozen network copy. Prevents "chasing your own tail."
+
+## RL Taxonomy / Classifying the Algorithms
+
+### 1. Action Space
+* **Discrete:** Finite choices (e.g., Left/Right). Output is a probability mass. *(Ex: DQN, Q-Learning)*
+* **Continuous:** Real-valued vectors (e.g., Torques). Output is a distribution or value. *(Ex: DDPG, SAC)*
+
+### 2. Model Usage
+* **Model-Based:** Uses dynamics $f(s, a)$ to plan. High sample efficiency. *(Ex: Dyna-Q, AlphaZero)*
+* **Model-Free:** Learns mapping $s \rightarrow a$ via trial-and-error. Low bias, easier impl. *(Ex: DDPG, DQN)*
+
+### 3. Data Regime (Sampling)
+* **On-Policy:** Learns only from current policy $\pi$. Stable but sample heavy. *(Ex: PPO, TRPO)*
+* **Off-Policy:** Learns from Replay Buffer (old data). Efficient but complex. *(Ex: SAC, DQN)*
+
+### 4. Learning Target (The "Brain")
+* **Value-Based:** Learns $Q(s, a)$. Implicit policy. *(Ex: DQN - Discrete only)*
+* **Policy-Based:** Optimizes $\pi_\theta$ directly via gradients. *(Ex: REINFORCE)*
+* **Actor-Critic:** Hybrid. Actor ($\pi$) acts, Critic ($V$) judges to reduce variance. *(Ex: PPO, SAC)*
+
+### 5. Safety & Constraints
+* **Unconstrained:** Maximize $J = \sum r$. Violations punished by negative reward. *(Ex: Vanilla RL)*
+* **Constrained (CMDP):** Max $J$ s.t. cost $C < d$. Uses Lagrangian multipliers. *(Ex: CPO)*
+* **Safe / Filtered:** Safety layer (Model/Barrier) overrides dangerous actions. *(Ex: MPC-in-loop)*
