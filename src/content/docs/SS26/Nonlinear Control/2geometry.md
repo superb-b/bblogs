@@ -136,5 +136,124 @@ $$
 Equation (3.9), and therefore the definition of the Lie derivative, can be rewritten as the *duality pairing* of a vector field with the *exact differential* of a scalar function:
 $$
 L_{\boldsymbol{f}}h(\boldsymbol{x}) = \langle \text{d}h(\boldsymbol{x}), \boldsymbol{f}(\boldsymbol{x}) \rangle. \tag{3.11}
+$$
 
 看3.5就可以理解这里的写法了。
+
+### 3.3.2 Bases of the Tangent and Cotangent Space
+
+Consider again the definition of the Lie derivative. By writing
+$$
+\begin{aligned}
+L_{\boldsymbol{f}}h(\boldsymbol{x}) &= \begin{bmatrix} \frac{\partial h(\boldsymbol{x})}{\partial x_1} & \dots & \frac{\partial h(\boldsymbol{x})}{\partial x_n} \end{bmatrix} \begin{bmatrix} f_1(\boldsymbol{x}) \\ \vdots \\ f_n(\boldsymbol{x}) \end{bmatrix} \\
+&= \left( f_1(\boldsymbol{x})\frac{\partial}{\partial x_1} + \dots + f_n(\boldsymbol{x})\frac{\partial}{\partial x_n} \right) (h(\boldsymbol{x})),
+\end{aligned} \tag{3.12}
+$$
+a vector field $\boldsymbol{f}(\boldsymbol{x})$ can be understood as a first order partial differential operator, which acts on a real-valued function $h(\boldsymbol{x})$. Hence, it makes sense to define $\left\{ \frac{\partial}{\partial x_1}, \dots, \frac{\partial}{\partial x_n} \right\}$ as the *basis of the tangent space*. In this basis, a vector $\boldsymbol{f}(\boldsymbol{x})$ is written
+$$
+\boldsymbol{f}(\boldsymbol{x}) = f_1(\boldsymbol{x})\frac{\partial}{\partial x_1} + \dots + f_n(\boldsymbol{x})\frac{\partial}{\partial x_n}. \tag{3.13}
+$$
+
+Consider the rate of change of a scalar function $h : \mathcal{X} \rightarrow \mathbb{R}$ along the solutions of a system $\dot{\boldsymbol{x}} = \boldsymbol{f}(\boldsymbol{x}) + \boldsymbol{g}(\boldsymbol{x})u$. Assume that, as indicated in Fig. 3.2, the solutions evolve for arbitrary inputs $u(t)$ on a 2-dimensional integral (solution) manifold of $\mathcal{X} \subset \mathbb{R}^3$, on which $h(\boldsymbol{x}_0) = h(\boldsymbol{x}(t)) = \textit{const.}$ holds. Equivalently, $\dot{h} = 0$ along the flow $\boldsymbol{\Phi}(\boldsymbol{x}_0, t)$. We now write the difference $h(\boldsymbol{x}(\varepsilon)) - h(\boldsymbol{x}(0)) = 0$ on a small time interval $[0, \varepsilon]$, and thereby highlight the basis elements of the cotangent space and justify the notion and notation of an exact differential:
+
+$$
+\begin{aligned}
+0 &= \int_{0}^{\varepsilon} \dot{h}(\boldsymbol{x}(t))\text{d}t \\
+&= \int_{0}^{\varepsilon} \begin{bmatrix} \frac{\partial h}{\partial x_1} & \frac{\partial h}{\partial x_2} & \frac{\partial h}{\partial x_3} \end{bmatrix} \begin{bmatrix} \frac{\text{d}x_1}{\text{d}t} \\ \frac{\text{d}x_2}{\text{d}t} \\ \frac{\text{d}x_3}{\text{d}t} \end{bmatrix} \text{d}t \\
+&= \int_{\boldsymbol{x}(0)}^{\boldsymbol{x}(\varepsilon)} \begin{bmatrix} \frac{\partial h}{\partial x_1} & \frac{\partial h}{\partial x_2} & \frac{\partial h}{\partial x_3} \end{bmatrix} \begin{bmatrix} \text{d}x_1 \\ \text{d}x_2 \\ \text{d}x_3 \end{bmatrix} & \text{d}x_i \text{: differentials of coordinate functions} \\
+&= \int_{h(\boldsymbol{x}(0))}^{h(\boldsymbol{x}(\varepsilon))} \text{d}h & \text{d}h \text{: differential/increment of } h \text{ along the path} \\
+&= h(\boldsymbol{x}(\varepsilon)) - h(\boldsymbol{x}(0))
+\end{aligned} \tag{3.14}
+$$
+
+* 坐标轴方向的偏导算子$\frac{\partial}{\partial x_i}$，充当了该方向上的单位方向基底，向量的分量 $f_i(\boldsymbol{x})$ 就是在该基底下的投影坐标。
+
+* 余切空间是切空间的对偶空间，里面全是行向量（用来和列向量做内积，给列向量打分）。既然切空间的基底是 $\frac{\partial}{\partial x_i}$，那么根据对偶性，余切空间的基底必须满足两者的乘积（对偶配对）能够抵消，吐出单位 1。
+
+坐标函数的微分 $\text{d}x_i$ 刚好完美符合这一天性：$$\langle \text{d}x_i, \frac{\partial}{\partial x_j} \rangle = \frac{\partial x_i}{\partial x_j} = \begin{cases} 1 & i = j \\ 0 & i \neq j \end{cases}$$
+
+改变坐标系，本质上就是改变了切空间的基底 $\frac{\partial}{\partial x_i}$ 以及余切空间的基底 $\text{d}x_i$
+
+很多非线性控制器的推导（比如大名鼎鼎的 反馈线性化 Feedback Linearization），其核心底层就是通过寻找一组恰当的微分一形式（余切基底 $\text{d}h$），去和系统的非线性控制向量场进行配对消去，从而在几何上把一个弯曲的非线性流形系统，“铺平”成一个直线的线性系统
+
+*Remark 3.1.* An interpretation why $\{\text{d}x_1, \dots, \text{d}x_n\}$ is the natural basis for the space of one-forms on $\mathbb{R}^n$ is as follows. Consider the interval $I = [a, b] \subset \mathbb{R}$ with the single *spatial* coordinate $x \in I \subset \mathbb{R}$ and the exact differential （1-form）
+$$
+\text{d}Q = \frac{\partial Q(x)}{\partial x}\text{d}x.
+$$
+
+This exact differential can describe the distribution of charge on an electric transmission line, with $\frac{\partial Q(x)}{\partial x} = \rho(x)$ the charge density per length.
+$$
+Q_{ab} = \int_{I}\text{d}Q = \int_{a}^{b} \frac{\partial Q(x)}{\partial x}\text{d}x
+$$
+then represents the total charge, which is obtained *by integration* over $I$. How is the total charge on a transmission line influenced (if we neglect distributed currents to ground)? Only by the currents injected at the two terminals:
+内部变化率取决于两端及分量的差，与系统边界相关
+$$
+\frac{\text{d}}{\text{t}}Q_{ab} = I_a - I_b.
+$$
+
+This is an *integral conservation law* for the charge and a 1D example for a class of systems that can be modelled in a physically intuitive and natural way in the language of differential forms (of degree $k$ in general – $k$-forms), see e.g., [1]. Maxwell’s equations, heat transfer and fluid dynamical problems are further examples on higher-dimensional spatial domains.
+
+## Lie bracket
+
+Lie bracket gives an answer to what occurs, when two vector fields interact. We will introduce the idea behind the Lie bracket at an everyday life situation:
+
+> **Example 3.2 (Parking a car in a parallel parking lot).** Assume you want to bring your car from the initial position $A$ to the final position $C$ as depicted in Fig. 3.4, knowing that your car doesn't allow a direct parallel shift by the available controls due to the kinematic constraints. What you do, is the following sequence of actions.
+> 
+> 1. Go back, steer right,
+> 2. go back, steer left,
+> 3. go forward, steer right (= do the "inverse" of 2.),
+> 4. go forward, steer left (= do the "inverse" of 1.).
+> 
+> The result of this maneuver is the desired parallel shift of the vehicle, a motion which can *not* be realized *directly*. $\triangleleft$
+
+The example illustrates an important point in nonlinear systems:
+> In nonlinear systems, in general, the order of subsequently applying (control) vector fields plays an important role and can be used to generate new vector fields / directions of motion.
+
+We would like to abstract from the car parking problem and investigate the solution of the following switched system.
+$$
+\dot{\boldsymbol{x}} = \begin{cases}
+\boldsymbol{f}(\boldsymbol{x}), & 0 \le t < \Delta t, \\
+\boldsymbol{g}(\boldsymbol{x}), & \Delta t \le t < 2\Delta t, \\
+-\boldsymbol{f}(\boldsymbol{x}), & 2\Delta t \le t < 3\Delta t, \\
+-\boldsymbol{g}(\boldsymbol{x}), & 3\Delta t \le t < 4\Delta t.
+\end{cases} \tag{3.17}
+$$
+
+For intervals of time $\Delta t$, two vector fields, with positive and negative sign each, are subsequently applied and induce the solution $\boldsymbol{x}(t)$. If one lets $\Delta t \rightarrow 0$, then an interesting question is whether the final value $\boldsymbol{x}(4\Delta t)$ equals the initial value $\boldsymbol{x}(0)$ or not.
+
+通过“交互摩擦”产生的全新向量场，就是李括号（Lie Bracket），记作：
+$$[\boldsymbol{f}, \boldsymbol{g}]$$
+* 它的本质： 是两个向量场的非线性算子乘积差：$[\boldsymbol{f}, \boldsymbol{g}] = \nabla \boldsymbol{g} \cdot \boldsymbol{f} - \nabla \boldsymbol{f} \cdot \boldsymbol{g}$。
+* 它的物理意义： 代表通过交替激活两个现有的控制输入（前后、左右），系统实质上获得了解锁隐藏的、第三个独立控制自由度（横移）的能力
+
+*Example 3.3 (Constant vector fields).* Consider the two constant vector fields
+$$
+\boldsymbol{f} = \begin{bmatrix} 1 \\ 1 \end{bmatrix}, \quad \boldsymbol{g} = \begin{bmatrix} 1 \\ -1 \end{bmatrix},
+$$
+and let $\Delta t = 1$. As an alternative to the sequence of vector fields as described in Eq. (3.17), one could also do as follows: Start from an initial value and apply first $\boldsymbol{f}$, then $\boldsymbol{g}$. Then, start from the same initial value and permute the sequence of the vector fields, i.e., start with $\boldsymbol{g}$ and then apply $\boldsymbol{f}$. Figure 3.5 depicts the solutions of the differential equations for the two constant vector fields in this scenario. Both solutions end at the same point, they *commute*.
+
+In the case of constant vectors $\boldsymbol{f}$ and $\boldsymbol{g}$, we have
+$$
+\boldsymbol{\Phi}_{t_2}^{\boldsymbol{g}}(\boldsymbol{\Phi}_{t_1}^{\boldsymbol{f}}(\boldsymbol{x}_0)) = \boldsymbol{\Phi}_{t_1}^{\boldsymbol{f}}(\boldsymbol{\Phi}_{t_2}^{\boldsymbol{g}}(\boldsymbol{x}_0)), \tag{3.18}
+$$
+which can be read as follows: $\boldsymbol{\Phi}_{t_1}^{\boldsymbol{f}}(\boldsymbol{x}_0)$ is the solution of $\dot{\boldsymbol{x}} = \boldsymbol{f}(\boldsymbol{x})$, starting at $\boldsymbol{x}_0$ and evaluated at time $t_1$, or alternatively, the *flow* induced by the vector field $\boldsymbol{f}$. $\triangleleft$
+
+What we observed for constant vector fields, is not true in general for non-constant vector fields. The situation then is sketched in Fig. 3.6.
+
+> **Definition 3.4 (Lie bracket).** The *Lie bracket*
+> $$
+> [\boldsymbol{f}(\boldsymbol{x}), \boldsymbol{g}(\boldsymbol{x})] := \frac{\partial \boldsymbol{g}(\boldsymbol{x})}{\partial \boldsymbol{x}}\boldsymbol{f}(\boldsymbol{x}) - \frac{\partial \boldsymbol{f}(\boldsymbol{x})}{\partial \boldsymbol{x}}\boldsymbol{g}(\boldsymbol{x}). \tag{3.19}
+> $$
+> is a measure for the *non-commutativity* of vector fields. If the Lie bracket of two vector fields is zero, we say that their flows commute.
+
+For the derivation, see Handout 2.
+
+The Lie bracket can point into a new direction that can not be represented by the original vector fields. This is the property which allows parking a car in a parallel parking lot!
+
+If the Lie bracket of two vector fields $\boldsymbol{f}(\boldsymbol{x})$ and $\boldsymbol{g}(\boldsymbol{x})$ is zero, then the flows of the two vector fields *commute*. This is a very rare situation, which occurs for example if the two vector fields are constant, $\boldsymbol{f} = \textit{const.}$, $\boldsymbol{g} = \textit{const.}$
+
+For two linear vector fields $\boldsymbol{f}(\boldsymbol{x}) = \boldsymbol{A}\boldsymbol{x}$ and $\boldsymbol{g}(\boldsymbol{x}) = \boldsymbol{B}\boldsymbol{x}$, one might think that the Lie bracket
+$$
+[\boldsymbol{A}\boldsymbol{x}, \boldsymbol{B}\boldsymbol{x}] \tag{3.20}
+$$
+lies in $\text{span}\{\boldsymbol{A}\boldsymbol{x}, \boldsymbol{B}\boldsymbol{x}\}$. This is, however, *not true in general*.

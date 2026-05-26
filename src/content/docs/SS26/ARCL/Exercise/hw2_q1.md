@@ -204,6 +204,8 @@ $x_2 < 0$，$\dot{V} = -x_2^3 > 0$, the total energy is increasing, by using LaS
 ![""](./image/2c.svg)
 
 ---
+### Problem 3.
+
 Poential energy is 
 $$
 V(q) = m_1 g_0 r_1 \sin{q_1} + m_2 g_0 (q_2+r_2)\sin(q_1)
