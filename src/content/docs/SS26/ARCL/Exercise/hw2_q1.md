@@ -126,9 +126,10 @@ integral this formula, then get:
 $$V(t, x(t)) \leq V(0, x(0)) \cdot e^{-\frac{c_3}{(1+k)^2} t}$$
 
 ---
-## Problem 2(a):
+## Problem 2:
 
-(i) $\ddot{\theta}+\dot{\theta} + 0.5\theta = 0$
+### (i)
+$\ddot{\theta}+\dot{\theta} + 0.5\theta = 0$
 
 $\dot{x}_1 = x_2 \quad \dot{x}_2 = -0.5x_1-x_2$
 $$
@@ -148,7 +149,8 @@ $$\lambda_{1,2} = -0.5 \pm 0.5i$$, on left plane, Stable focus.
 
 ---
 
-(ii): $\ddot{\theta} + \dot{\theta} + 0.5\,\theta = 1$
+### (ii)
+$\ddot{\theta} + \dot{\theta} + 0.5\,\theta = 1$
 
 $$
 \begin{aligned}
@@ -168,7 +170,9 @@ LTI: same with above.
 
 ---
 
-(iii): $\ddot{\theta} + (\dot{\theta})^2 + 0.5\,\theta = 0$
+### (iii)
+
+$\ddot{\theta} + (\dot{\theta})^2 + 0.5\,\theta = 0$
 
 $$\ddot{\theta} = -0.5\,\theta - (\dot{\theta})^2$$
 
@@ -204,7 +208,7 @@ $x_2 < 0$，$\dot{V} = -x_2^3 > 0$, the total energy is increasing, by using LaS
 ![""](./image/2c.svg)
 
 ---
-### Problem 3.
+## Problem 3.
 
 Poential energy is 
 $$

@@ -193,7 +193,7 @@ $$
 
 This is an *integral conservation law* for the charge and a 1D example for a class of systems that can be modelled in a physically intuitive and natural way in the language of differential forms (of degree $k$ in general – $k$-forms), see e.g., [1]. Maxwell’s equations, heat transfer and fluid dynamical problems are further examples on higher-dimensional spatial domains.
 
-## Lie bracket
+## 3.4 Lie bracket
 
 Lie bracket gives an answer to what occurs, when two vector fields interact. We will introduce the idea behind the Lie bracket at an everyday life situation:
 
@@ -246,7 +246,11 @@ What we observed for constant vector fields, is not true in general for non-cons
 > $$
 > is a measure for the *non-commutativity* of vector fields. If the Lie bracket of two vector fields is zero, we say that their flows commute.
 
-For the derivation, see Handout 2.
+Commutavity: $g(f(x)) = f(g(x))$, 运用两个vector field的结束位置相同
+
+Non-Commutavity:
+
+!["Non-commutativity"](./image/non-commutativty.png)
 
 The Lie bracket can point into a new direction that can not be represented by the original vector fields. This is the property which allows parking a car in a parallel parking lot!
 
@@ -257,3 +261,122 @@ $$
 [\boldsymbol{A}\boldsymbol{x}, \boldsymbol{B}\boldsymbol{x}] \tag{3.20}
 $$
 lies in $\text{span}\{\boldsymbol{A}\boldsymbol{x}, \boldsymbol{B}\boldsymbol{x}\}$. This is, however, *not true in general*.
+
+## 3.5 Distributions and involutivity
+### Distribution
+Given a set of $k$ vector fields $f_1(x), \dots, f_k(x) \in T_x\mathcal{X}$. At every point $x \in \mathcal{X}$, these vector fields span a subspace of the tangent space:
+
+$$\Delta(x) := \text{span}\{f_1(x), f_2(x), \dots, f_k(x)\} \subset T_x\mathcal{X} \quad \text{(3.21)}$$
+
+> **Definition 3.5 (Distribution)**
+> The assignment of a set of vector fields to the corresponding subspace of $T_x\mathcal{X}$ at every point of $\mathcal{X}$ is called a **distribution** and denoted as:
+> $$\Delta = \text{span}\{f_1, \dots, f_k\} \quad \text{(3.22)}$$
+Distribution 空间的每一个点上都指定一个允许运动子空间
+
+The **dimension** of $\Delta$ at a specific point $x$ is defined using the matrix rank:
+
+$$\text{dim}(\Delta(x)) := \text{rank}[f_1(x), \dots, f_k(x)] \quad \text{(3.23)}$$
+
+The dimension of $\Delta$ may vary across the state space $\mathcal{X}$. However, if for all $x \in \mathcal{X}$, the vector fields $f_1(x), \dots, f_k(x)$ are **linearly independent**, then the matrix on the right-hand side of Equation (3.23) has a full rank of $k$ at every point $x \in \mathcal{X}$:
+
+$$\text{dim}(\Delta(x)) = k = \text{const.} \quad \text{on } \mathcal{X} \quad \text{(3.24)}$$
+
+In this case, we call the distribution $\Delta$ **nonsingular**.
+
+在k个矢量场空间中任何地方都是线性无关的，意味在任何地方，子空间维度永远是固定常数k，
+这种维数处处相等，表现良好的分布就叫非奇异分布.
+在一个smooth的vector field $f_i(x)$ 中
+如果一个新的vector field g(x)属于这个非奇异分布，意味着g(x)代表的运动方向完全在系统的控制能力之内，可以被现有的基本矢量场f(x)组合出来。
+
+$$g(x) = \sum_{i=1}^k c_i(x)f_i(x) \quad \text{(3.25)}$$
+这里的$c_i(x)$跟随位置变化，意味着输入控制量（smooth）
+
+### Involutive Closure
+对合闭包
+> **Definition 3.6 (Involutive distribution)**
+> A $k$-dimensional distribution $\Delta$ is called **involutive** if the following implication holds for all $i, j \in \{1, \dots, k\}$:
+> 
+> $$f_i, f_j \in \Delta \implies [f_i, f_j] \in \Delta \quad \text{(3.26)}$$
+
+Definition 3.6： 如果一个分布 $\Delta$ 是对合（Involutive）的，意味着无论你把分布里的哪两个矢量场拿来做李括号运算，算出来的新矢量场 $[f_i, f_j]$ 依然在原本的分布 $\Delta$ 里面。
+
+如果一个初始分布不是involutive，可以通过Lie Bracket来推导出原本没有的方向。然后不但推导出更多方向，直到推导不出更多方向为止。
+
+$$\bar{\Delta} = \text{span}\{f_1, \dots, f_k, \underbrace{[f_i, f_j]}_{\notin \Delta}, \dots\} \quad \text{(3.27)}$$
+### Annihilator of Distribution
+零化子 (Annihilator) $\Delta^\perp$, 是正交补空间在对偶空间的延申。
+!["Annihilator"](./image/annihilator.png)
+
+$$\Delta^\perp = \text{span}\{w \in T^*\mathcal{X} \mid \langle w, f_i \rangle = 0, \;\; f_i \in \Delta\} \quad \text{(3.28)}$$
+>
+在微分几何中，我们不用普通的向量来表示法方向，而是用余矢量（Covector / 一次微分形式 one-form）。这个特殊的余矢量 $w$ 与平面内任何向量的内积（对偶积）都为 $0$：$$\langle w, f_1 \rangle = 0, \quad \langle w, f_2 \rangle = 0$$
+所有这样的余矢量撑起的空间，就叫做零化子 $\Delta^\perp$。
+维数公式 $\text{dim}(\Delta^\perp) = n - k$： 如果系统总空间有 $n$ 维，你当前能运动的自由度有 $k$ 个，那么剩下的 $n-k$ 个方向就是你无法直接突破的物理限制（约束）。
+
+*Note on Figure 3.7:* The illustration shows $\Delta = \text{span}\{f_1, f_2\}$ with $f_1, f_2 \in \mathbb{R}^3$ vectors in Euclidean space. The annihilator $\Delta^\perp = \text{span}\{w\}$ consists of a single covector which can be drawn perpendicular to the plane spanned by $f_1$ and $f_2$. (The duality products of $f_1$ and $f_2$ with $w$, which correspond to scalar products in $\mathbb{R}^3$ in the illustration, are zero.)
+
+## 3.6 Integrability and Frobenius' Theorem
+We introduce a theorem which is of fundamental importance in differential geometric methods for control and observer design.
+
+> **Definition 3.8 (Complete integrability)**
+> If the annihilator $\Delta^\perp$ of a distribution $\Delta$ is spanned by **exact differentials**, then the distribution is called **completely integrable**.
+
+ 如果零化子 $\Delta^\perp$ 可以完全由恰当微分 (Exact Differentials) $d\lambda(x)$ 撑开，也就是说，所有的限制都可以写成某个标量函数 $\lambda(x) = C$（常数）的导数形式，这就叫完全可积。
+
+Recall that we defined an *exact differential* as a covector whose components are the partial derivatives of a scalar function $\lambda(x)$:
+
+$$d\lambda(x) = \frac{\partial \lambda}{\partial x_1}dx_1 + \dots + \frac{\partial \lambda}{\partial x_n}dx_n \quad \text{(3.29)}$$
+
+### Interpretation of complete integrability
+Consider **Figure 3.8**, where the distribution $\Delta$ comprises two vector fields $f_1$ and $f_2$. The condition for complete integrability states that there exists a scalar function $\lambda : \mathbb{R}^3 \to \mathbb{R}$ such that:
+
+$$\langle d\lambda(x), f_i(x) \rangle = \frac{\partial \lambda(x)}{\partial x} f_i(x) = L_{f_i}\lambda(x) = 0 \quad (\text{for } i = 1,2)$$
+
+!["integral_manifold"](./image/integral_manifold.png)
+
+Where $L_{f_i}\lambda(x)$ denotes the **Lie derivative** of $\lambda(x)$ along the vector field $f_i(x)$.
+
+* $d\lambda(x)$ 是标量函数 $\lambda(x)$ 的梯度（法向量）。
+* 这个等式表明系统自带的运动矢量场 $f_1(x)$ 和 $f_2(x)$，与这个梯度向量处处垂直（内积为 0）
+* 李导数 $L_{f_i}\lambda(x) = 0$ 的物理含义： 如果你沿着系统允许的运动方向 $f_1$ 或 $f_2$ 移动，标量函数 $\lambda(x)$ 的数值绝对不会发生任何变化。
+
+Foliation 叶层上有无数个Leaves，叶面上 $\lambda(x) = c \quad (\text{常数})$ ，当系统从初始点出发时，等于被出生点所在的特定叶子定义。由于运动方向永远与曲面法向线垂直，所以系统只能在弯曲的纸面上滑行，无法跳跃到其他Leaves上。  
+
+如果一个分布 $\Delta = \text{span}\{f_1, \dots, f_k\}$ 是完全可积的，那么就一定能找到 $n-k$ 个独立的约束函数 $\lambda_j(x)$。这些函数构成了一个偏微分方程组：$$\frac{\partial \lambda_j(x)}{\partial x} f_i(x) = 0$$ 说明系统被 $n-k$ 张宏观大网给死死罩住了，它实际活动的范围被降维成了一个 $k$ 维的曲面
+
+A necessary and sufficient condition for a distribution to form a macroscopically confined integral manifold is given by the celebrated **Frobenius' Theorem**:
+
+> ### **Theorem 3.1 (Frobenius)**
+> A distribution $\Delta = \text{span}\{f_1, \dots, f_k\}$ is **completely integrable** if and only if it is **involutive**.
+
+在此之前，如果你想知道一个系统会不会被困在某个宏观曲面上（完全可积），你必须去求解极其恶心的偏微分方程组（PDEs）（即公式 3.31）。这在数学上通常是很难甚至无解的。只需要把这几个控制矢量场两两拿出来求一下偏导数、做下代数运算（算李括号 $[f_i, f_j]$）。如果算出来的新方向都在原空间里，那宏观曲面就必然存在！
+
+### **Key Implications for Control Theory:**
+* **Algorithmic Check:** It allows for an easy check of complete integrability. Instead of solving a complex system of partial differential equations (PDEs), one only needs to verify if the Lie brackets of all base vector fields stay within $\Delta$.
+* **The Trapped State:** If the involutive closure $\bar{\Delta}$ satisfies $\text{dim}(\bar{\Delta}) < n$, an integral manifold of a dimension less than $n$ exists, and the system trajectories are trapped on it. 
+* **The Fully Controllable State:** If $\text{dim}(\bar{\Delta}) = n$, no confining function $\lambda(x)$ exists. The "integral manifold" expands to the entire state space, meaning the system can potentially reach any state (fully accessible).
+
+---
+
+### 3.6.2 Straightening Out of Vector Fields
+
+If and only if a $k$-dimensional distribution $\Delta = \text{span}\{f_1, \dots, f_k\}$ is involutive, the local coordinates can be fundamentally transformed to simplify the system representation.
+
+如果系统满足involutive，则系统运行在某个leaf上，我们可以将曲面拉直，更好控制。
+
+### **Coordinate Transformation (Diffeomorphism)**
+Under a smooth, invertible coordinate transformation:
+$$z = s(x) \quad \text{(3.32)}$$
+
+The original vector fields $f_i(x)$, expressed via partial derivative bases as:
+$$f_i(x) = \sum_{j=1}^n f_{ij}(x)\frac{\partial}{\partial x_j} \quad \text{(3.33)}$$
+
+can be **straightened out** and transformed into a new coordinate frame $z$ as:
+$$\tilde{f}_i(z) = \sum_{j=1}^k \tilde{f}_{ij}(z)\frac{\partial}{\partial z_j} \quad \text{(3.34)}$$
+
+*(where $f_{ij}$ denotes the $j$-th component of the vector $f_i$).*
+
+n-k作为系统的constrain，作为0来看待，$z_1, \dots, z_k$：系统真正能动、能控制的有效状态。
+
+> 📌 **Crucial Mathematical Insight:**
+> Notice that the upper bound of the summation in the transformed vector field (3.34) drops from $n$ to $k$. This implies that the vector fields inducing the system flow have **exactly zero components** in the $n - k$ constrained directions (e.g., the $\frac{\partial}{\partial z_3}$ direction in Figure 3.9). The complex curved manifold is mathematically "flattened".
